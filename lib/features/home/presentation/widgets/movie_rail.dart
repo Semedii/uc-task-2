@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
 import 'package:uc_task_2/features/home/domain/movie.dart';
+import 'package:uc_task_2/features/movie_details/presentation/movie_details_screen.dart';
 
 class MovieRail extends HookWidget {
   final int categoryId;
@@ -40,7 +41,13 @@ class MovieRail extends HookWidget {
                 padding: const EdgeInsets.only(left: 16, right: 4),
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: Navigate to details (later)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            MovieDetailsScreen(movieId: movie.id),
+                      ),
+                    );
                     debugPrint('Tapped ${movie.title}');
                   },
                   child: TweenAnimationBuilder<double>(

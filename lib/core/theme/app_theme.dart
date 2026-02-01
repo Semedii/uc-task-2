@@ -15,6 +15,7 @@ ThemeData buildAppTheme() {
     elevatedButtonTheme: _elevatedButtonTheme,
     inputDecorationTheme: _inputDecorationTheme,
     iconTheme: _iconTheme,
+    outlinedButtonTheme: _outlinedButtonTheme,
   );
 }
 
@@ -25,6 +26,14 @@ final ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
     padding: const EdgeInsets.symmetric(vertical: 16),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     elevation: 0,
+  ),
+);
+
+final OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
+  style: OutlinedButton.styleFrom(
+    foregroundColor: AppColors.primary,
+    side: const BorderSide(color: AppColors.primary),
+    padding: const EdgeInsets.symmetric(vertical: 16),
   ),
 );
 

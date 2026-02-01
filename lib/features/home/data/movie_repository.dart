@@ -25,4 +25,9 @@ class MovieRepository {
         .map((json) => Movie.fromJson(json as Map<String, dynamic>))
         .toList();
   }
+
+  Future<Movie> getMovieDetails(int movieId) async {
+    final response = await _api.get<Map<String, dynamic>>('/movie/$movieId');
+    return Movie.fromJson(response.data!);
+  }
 }
