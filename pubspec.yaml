@@ -48,6 +48,7 @@ dependencies:
   hooks_riverpod: any
   flutter_secure_storage: ^10.0.0
   cached_network_image: ^3.4.1
+  better_player_plus: ^1.1.5
  
 
 dev_dependencies:

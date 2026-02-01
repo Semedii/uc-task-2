@@ -5,6 +5,7 @@ import 'package:uc_task_2/core/constants.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
 import 'package:uc_task_2/features/home/application/movie_details_notifier.dart';
 import 'package:uc_task_2/features/home/domain/movie.dart';
+import 'package:uc_task_2/features/player/presentation/player_screen.dart';
 
 class MovieDetailsScreen extends HookConsumerWidget {
   final int movieId;
@@ -109,14 +110,26 @@ class MovieDetailsScreen extends HookConsumerWidget {
   Widget _buildActionButtons(BuildContext context, Movie movie) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [_buildPlayButton(), _buildToMyListButton(context, movie)],
+      children: [
+        _buildPlayButton(context, movie),
+        _buildToMyListButton(context, movie),
+      ],
     );
   }
 
-  ElevatedButton _buildPlayButton() {
+  ElevatedButton _buildPlayButton(BuildContext context, Movie movie) {
     return ElevatedButton.icon(
       onPressed: () {
-        // Todo
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PlayerScreen(
+              videoUrl:
+                  'https://archive.org/download/ElephantsDream/ed_1024.mp4',
+              title: movie.title,
+            ),
+          ),
+        );
       },
       icon: const Icon(Icons.play_arrow),
       label: const Text('Play'),

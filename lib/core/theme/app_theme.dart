@@ -3,9 +3,11 @@ import 'app_colors.dart';
 
 ThemeData buildAppTheme() {
   return ThemeData.dark().copyWith(
+    appBarTheme: _appBarTheme,
     scaffoldBackgroundColor: AppColors.background,
     colorScheme: const ColorScheme.dark(primary: AppColors.primary),
     textTheme: const TextTheme(
+      titleLarge: TextStyle(fontWeight: FontWeight.bold),
       titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       headlineMedium: TextStyle(
         color: AppColors.textPrimary,
@@ -18,6 +20,12 @@ ThemeData buildAppTheme() {
     outlinedButtonTheme: _outlinedButtonTheme,
   );
 }
+
+final AppBarTheme _appBarTheme = AppBarTheme(
+  backgroundColor: Colors.black87,
+  foregroundColor: Colors.white,
+  elevation: 0,
+);
 
 final ElevatedButtonThemeData _elevatedButtonTheme = ElevatedButtonThemeData(
   style: ElevatedButton.styleFrom(

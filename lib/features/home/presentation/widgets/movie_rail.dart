@@ -22,11 +22,7 @@ class MovieRail extends HookWidget {
           padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
           child: Text(
             _getCategoryName(categoryId),
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: TextTheme.of(context).titleLarge,
           ),
         ),
         SizedBox(
@@ -50,36 +46,37 @@ class MovieRail extends HookWidget {
                     );
                     debugPrint('Tapped ${movie.title}');
                   },
-                  child: TweenAnimationBuilder<double>(
-                    tween: Tween(begin: 0.0, end: 1.0),
-                    duration: const Duration(milliseconds: 500),
-                    builder: (context, value, child) {
-                      return Opacity(
-                        opacity: value,
-                        child: Transform.translate(
-                          offset: Offset(0, 20 * (1 - value)),
-                          child: Transform.scale(
-                            scale: 0.95 + 0.05 * value,
-                            child: child,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildMoviePoster(movie),
-                        const SizedBox(height: 8),
-                        _buildMovieTitle(movie),
-                      ],
-                    ),
-                  ),
+                  child: _getAnimation(movie),
                 ),
               );
             },
           ),
         ),
       ],
+    );
+  }
+
+  TweenAnimationBuilder<double> _getAnimation(Movie movie) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, 20 * (1 - value)),
+            child: Transform.scale(scale: 0.95 + 0.05 * value, child: child),
+          ),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildMoviePoster(movie),
+          const SizedBox(height: 8),
+          _buildMovieTitle(movie),
+        ],
+      ),
     );
   }
 
