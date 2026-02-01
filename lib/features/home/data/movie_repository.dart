@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uc_task_2/core/network/api_client.dart';
 import 'package:uc_task_2/features/home/domain/movie.dart';
@@ -29,5 +30,22 @@ class MovieRepository {
   Future<Movie> getMovieDetails(int movieId) async {
     final response = await _api.get<Map<String, dynamic>>('/movie/$movieId');
     return Movie.fromJson(response.data!);
+  }
+
+  Future<List<Movie>> searchMovies(
+    String query, {
+    CancelToken? cancelToken,
+  }) async {
+    final response = await _api.get<Map<String, dynamic>>(
+      '/search/movie',
+      query: {'query': query, 'page': 1},
+      cancelToken: cancelToken,
+    );
+
+    final results = response.data?['results'] as List<dynamic>? ?? [];
+
+    return results
+        .map((json) => Movie.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 }
