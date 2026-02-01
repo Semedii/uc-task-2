@@ -1,26 +1,29 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_notifier.dart';
+part of 'movies_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authNotifierHash() => r'efdf9a0fb5102f27865542f940ac9c04f5914ebf';
+String _$moviesNotifierHash() => r'c1bc9b6ba43411aa4c79cdc7e3fab00fb8b2d6f4';
 
-/// See also [AuthNotifier].
-@ProviderFor(AuthNotifier)
-final authNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<AuthNotifier, AuthState>.internal(
-      AuthNotifier.new,
-      name: r'authNotifierProvider',
+/// See also [MoviesNotifier].
+@ProviderFor(MoviesNotifier)
+final moviesNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<
+      MoviesNotifier,
+      Map<int, List<Movie>>
+    >.internal(
+      MoviesNotifier.new,
+      name: r'moviesNotifierProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$authNotifierHash,
+          : _$moviesNotifierHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$AuthNotifier = AutoDisposeAsyncNotifier<AuthState>;
+typedef _$MoviesNotifier = AutoDisposeAsyncNotifier<Map<int, List<Movie>>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

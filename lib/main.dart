@@ -4,6 +4,7 @@ import 'package:uc_task_2/core/theme/app_theme.dart';
 import 'package:uc_task_2/features/auth/application/auth_notifier.dart';
 import 'package:uc_task_2/features/auth/domain/auth_state.dart';
 import 'package:uc_task_2/features/auth/presentation/login_screen.dart';
+import 'package:uc_task_2/features/home/presentation/home_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -24,7 +25,7 @@ class MyApp extends ConsumerWidget {
       themeMode: ThemeMode.dark,
       home: authState.when(
         data: (state) => state.maybeWhen(
-          authenticated: (_) => Container(), //TODO: home screen
+          authenticated: (_) => HomeScreen(),
           orElse: () => const LoginScreen(),
         ),
         loading: () => Container(), //TODO: loading screen

@@ -14,26 +14,26 @@ class LoginScreen extends HookConsumerWidget {
     final isLoading = authState.isLoading;
     final authError = authState.error?.toString() ?? '';
 
-    final emailController = useTextEditingController();
+    final usernameController = useTextEditingController();
     final passwordController = useTextEditingController();
     final formKey = useMemoized(() => GlobalKey<FormState>());
 
-    final emailFocus = useFocusNode();
+    final usernameFocus = useFocusNode();
     final passwordFocus = useFocusNode();
 
-    final emailError = useState<String?>(null);
+    final usernameError = useState<String?>(null);
     final passwordError = useState<String?>(null);
 
     Future<void> submit() async {
-      emailError.value = null;
+      usernameError.value = null;
       passwordError.value = null;
 
       if (!formKey.currentState!.validate()) return;
 
-      final email = emailController.text.trim();
+      final username = usernameController.text.trim();
       final password = passwordController.text.trim();
 
-      await ref.read(authNotifierProvider.notifier).login(email, password);
+      await ref.read(authNotifierProvider.notifier).login(username, password);
     }
 
     return Scaffold(
@@ -52,11 +52,11 @@ class LoginScreen extends HookConsumerWidget {
                   children: [
                     _buildHeader(theme),
                     const SizedBox(height: 48),
-                    _buildEmailField(
-                      emailController,
-                      emailFocus,
+                    _buildUsernameField(
+                      usernameController,
+                      usernameFocus,
                       passwordFocus,
-                      emailError,
+                      usernameError,
                     ),
                     const SizedBox(height: 16),
                     _buildPasswordField(
@@ -114,23 +114,23 @@ class LoginScreen extends HookConsumerWidget {
     );
   }
 
-  Widget _buildEmailField(
+  Widget _buildUsernameField(
     TextEditingController controller,
-    FocusNode emailFocus,
+    FocusNode usernameFocus,
     FocusNode passwordFocus,
-    ValueNotifier<String?> emailError,
+    ValueNotifier<String?> usernameError,
   ) {
     return TextFormField(
       controller: controller,
-      focusNode: emailFocus,
-      keyboardType: TextInputType.emailAddress,
+      focusNode: usernameFocus,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => passwordFocus.requestFocus(),
       decoration: InputDecoration(
-        labelText: 'Email',
-        prefixIcon: const Icon(Icons.email_outlined),
+        labelText: 'Username',
+        prefixIcon: const Icon(Icons.person),
       ),
-      validator: (v) => v?.trim().isEmpty ?? true ? 'Email is required' : null,
+      validator: (v) =>
+          v?.trim().isEmpty ?? true ? 'Username is required' : null,
     );
   }
 

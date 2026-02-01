@@ -7,7 +7,7 @@ part 'auth_notifier.g.dart';
 
 @riverpod
 class AuthNotifier extends _$AuthNotifier {
-  static const _tokenKey = 'auth_token';
+  static const tokenKey = 'auth_token';
 
   late final FlutterSecureStorage _storage;
 
@@ -19,7 +19,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<AuthState> _loadInitialState() async {
     try {
-      final token = await _storage.read(key: _tokenKey);
+      final token = await _storage.read(key: tokenKey);
 
       if (token != null && token.isNotEmpty) {
         return AuthState.authenticated(token);
@@ -31,14 +31,14 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String password) async {
     state = const AsyncLoading();
 
     try {
       final token = await ref
           .read(authRepositoryProvider)
-          .login(email, password);
-      await _storage.write(key: _tokenKey, value: token);
+          .login(username, password);
+      await _storage.write(key: tokenKey, value: token);
       state = AsyncData(AuthState.authenticated(token));
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -49,7 +49,7 @@ class AuthNotifier extends _$AuthNotifier {
     state = const AsyncLoading();
 
     try {
-      await _storage.delete(key: _tokenKey);
+      await _storage.delete(key: tokenKey);
       state = AsyncData(const AuthState.unauthenticated());
     } catch (e, st) {
       state = AsyncError(e, st);

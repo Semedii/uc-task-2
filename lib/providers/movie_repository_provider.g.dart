@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'api_client_provider.dart';
+part of 'movie_repository_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$apiClientHash() => r'2198a82c9f1329328b876a040b305a2adb25ac45';
+String _$movieRepositoryHash() => r'd19c3204a8fcbcb830b5493b9ffd9a94e5fdd09e';
 
-/// See also [apiClient].
-@ProviderFor(apiClient)
-final apiClientProvider = Provider<ApiClient>.internal(
-  apiClient,
-  name: r'apiClientProvider',
+/// See also [movieRepository].
+@ProviderFor(movieRepository)
+final movieRepositoryProvider = AutoDisposeProvider<MovieRepository>.internal(
+  movieRepository,
+  name: r'movieRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$apiClientHash,
+      : _$movieRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef ApiClientRef = ProviderRef<ApiClient>;
+typedef MovieRepositoryRef = AutoDisposeProviderRef<MovieRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
