@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/theme/app_theme.dart';
 import 'package:uc_task_2/features/auth/application/auth_notifier.dart';
@@ -6,7 +8,10 @@ import 'package:uc_task_2/features/auth/domain/auth_state.dart';
 import 'package:uc_task_2/features/auth/presentation/login_screen.dart';
 import 'package:uc_task_2/main_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox<int>('favorites');
   runApp(const ProviderScope(child: MyApp()));
 }
 

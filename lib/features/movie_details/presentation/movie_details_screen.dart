@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/constants.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
@@ -142,15 +143,56 @@ class MovieDetailsScreen extends HookConsumerWidget {
   OutlinedButton _buildToMyListButton(BuildContext context, Movie movie) {
     return OutlinedButton.icon(
       onPressed: () {
-        // TODO:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${movie.title} added to My List')),
-        );
+        final box = Hive.box<int>('favorites');
+
+        if (box.containsKey(movie.id)) {
+          box.delete(movie.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${movie.title} removed from My List'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        } else {
+          box.put(movie.id, movie.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${movie.title} added to My List'),
+              backgroundColor: AppColors.primary,
+            ),
+          );
+        }
       },
-      icon: const Icon(Icons.add),
-      label: const Text('My List'),
+      icon: ValueListenableBuilder<Box<int>>(
+        valueListenable: Hive.box<int>(
+          'favorites',
+        ).listenable(keys: [movie.id]),
+        builder: (context, box, _) {
+          final isInList = box.containsKey(movie.id);
+          return Icon(
+            isInList ? Icons.check : Icons.add,
+            color: isInList ? AppColors.primary : Colors.white,
+          );
+        },
+      ),
+      label: ValueListenableBuilder<Box<int>>(
+        valueListenable: Hive.box<int>(
+          'favorites',
+        ).listenable(keys: [movie.id]),
+        builder: (context, box, _) {
+          final isInList = box.containsKey(movie.id);
+          return Text(
+            isInList ? 'In My List' : 'Add to My List',
+            style: TextStyle(
+              color: isInList ? AppColors.primary : Colors.white,
+            ),
+          );
+        },
+      ),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+        side: BorderSide(color: AppColors.primary),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

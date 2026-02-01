@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
 import 'package:uc_task_2/features/auth/application/auth_notifier.dart';
+import 'package:uc_task_2/features/profile/presentation/my_list_screen.dart';
 
 class ProfileScreen extends HookConsumerWidget {
   const ProfileScreen({super.key});
@@ -58,7 +59,7 @@ class ProfileScreen extends HookConsumerWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Placeholder()),
+          MaterialPageRoute(builder: (context) => MyListScreen()),
         );
       },
     );
