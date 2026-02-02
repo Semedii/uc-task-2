@@ -66,11 +66,11 @@ class PlayerScreen extends HookWidget {
     useEffect(() {
       void onFullscreenChanged() {
         if (controller.isFullScreen) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.landscapeLeft,
             DeviceOrientation.landscapeRight,
           ]);
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
         } else {
           SystemChrome.setPreferredOrientations(DeviceOrientation.values);
           SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -95,16 +95,27 @@ class PlayerScreen extends HookWidget {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: Text(title)),
-      body: SafeArea(
-        child: Column(
-          children: [
-            AspectRatio(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.black87,
+        foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return SafeArea(
+            minimum: orientation == Orientation.landscape
+                ? EdgeInsets.zero
+                : EdgeInsets.zero,
+            child: AspectRatio(
               aspectRatio: 16 / 9,
               child: BetterPlayer(controller: controller),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
