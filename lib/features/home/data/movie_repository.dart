@@ -43,9 +43,7 @@ class MovieRepository {
     );
 
     final results = response.data?['results'] as List<dynamic>? ?? [];
-
-    return results
-        .map((json) => Movie.fromJson(json as Map<String, dynamic>))
-        .toList();
+    //Since movies data is large and mapping to json is heavy we using isolates in here.
+    return compute(_parseMovieList, results);
   }
 }
