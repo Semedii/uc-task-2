@@ -3,9 +3,9 @@ import 'package:uc_task_2/core/network/api_client.dart';
 import 'package:uc_task_2/core/network/api_exception.dart';
 
 class AuthRepository {
-  final ApiClient _api;
+  final ApiClient api;
 
-  AuthRepository(this._api);
+  AuthRepository(this.api);
 
   Future<String> login(String email, String password) async {
     try {
