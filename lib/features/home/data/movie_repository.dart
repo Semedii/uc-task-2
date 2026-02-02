@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uc_task_2/core/network/api_client.dart';
+import 'package:uc_task_2/core/utils/movie_json_parser.dart';
 import 'package:uc_task_2/features/home/domain/movie.dart';
 
 class MovieRepository {
@@ -18,13 +19,7 @@ class MovieRepository {
 
     final results = response.data?['results'] as List<dynamic>? ?? [];
     //Since movies data is large and mapping to json is heavy we using isolates in here.
-    return compute(_parseMovieList, results);
-  }
-
-  static List<Movie> _parseMovieList(List<dynamic> jsonList) {
-    return jsonList
-        .map((json) => Movie.fromJson(json as Map<String, dynamic>))
-        .toList();
+    return compute(parseMovieList, results);
   }
 
   Future<Movie> getMovieDetails(int movieId) async {
@@ -44,6 +39,6 @@ class MovieRepository {
 
     final results = response.data?['results'] as List<dynamic>? ?? [];
     //Since movies data is large and mapping to json is heavy we using isolates in here.
-    return compute(_parseMovieList, results);
+    return compute(parseMovieList, results);
   }
 }
