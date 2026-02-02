@@ -11,7 +11,7 @@ import 'package:uc_task_2/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: 'env');
+  await dotenv.load(fileName: '.env');
   await Hive.initFlutter();
   await Hive.openBox<int>('favorites');
   runApp(const ProviderScope(child: MyApp()));
