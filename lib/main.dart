@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/theme/app_theme.dart';
+import 'package:uc_task_2/core/widgets/error_view.dart';
+import 'package:uc_task_2/core/widgets/loading_view.dart';
 import 'package:uc_task_2/features/auth/application/auth_notifier.dart';
 import 'package:uc_task_2/features/auth/domain/auth_state.dart';
 import 'package:uc_task_2/features/auth/presentation/login_screen.dart';
@@ -35,8 +37,11 @@ class MyApp extends ConsumerWidget {
           authenticated: (_) => MainScreen(),
           orElse: () => const LoginScreen(),
         ),
-        loading: () => Container(), //TODO: loading screen
-        error: (err, st) => Container(), //TODO: error Screen
+        loading: () => LoadingView(),
+        error: (err, st) => ErrorView(
+          message: "'Failed to authenticate: $err",
+          onRetry: () => ref.invalidate(authNotifierProvider),
+        ),
       ),
     );
   }
