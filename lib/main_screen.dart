@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/features/home/presentation/home_screen.dart';
 import 'package:uc_task_2/features/profile/presentation/profile_screen.dart';
-import 'package:uc_task_2/features/search/application/presentation/search_screen.dart';
+import 'package:uc_task_2/features/search/presentation/search_screen.dart';
 
 class MainScreen extends HookConsumerWidget {
   const MainScreen({super.key});
