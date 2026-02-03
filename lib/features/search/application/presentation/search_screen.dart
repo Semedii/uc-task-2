@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:uc_task_2/core/hooks/use_debounce.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
+import 'package:uc_task_2/core/widgets/error_view.dart';
 import 'package:uc_task_2/core/widgets/movie_item.dart';
 import 'package:uc_task_2/features/movie_details/presentation/movie_details_screen.dart';
 import 'package:uc_task_2/features/search/application/search_movies_provider.dart';
@@ -114,11 +115,9 @@ class SearchScreen extends HookConsumerWidget {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, st) => Center(
-                child: Text(
-                  'Error: $err',
-                  style: const TextStyle(color: Colors.red),
-                ),
+              error: (err, st) => ErrorView(
+                message: err.toString(),
+                onRetry: () => ref.invalidate(searchMoviesProvider),
               ),
             ),
           ),

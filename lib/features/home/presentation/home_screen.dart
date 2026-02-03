@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
+import 'package:uc_task_2/core/widgets/error_view.dart';
 import 'package:uc_task_2/features/home/application/movies_notifier.dart';
 import 'package:uc_task_2/features/home/presentation/widgets/movie_rail.dart';
 
@@ -25,11 +26,9 @@ class HomeScreen extends HookConsumerWidget {
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.primary),
         ),
-        error: (err, stack) => Center(
-          child: Text(
-            'Error loading movies\n$err',
-            style: const TextStyle(color: Colors.red),
-          ),
+        error: (err, stack) => ErrorView(
+          message: 'Failed to load movies: $err',
+          onRetry: () => ref.invalidate(moviesNotifierProvider),
         ),
       ),
     );
