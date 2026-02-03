@@ -2,6 +2,7 @@ import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/services.dart';
+import 'package:uc_task_2/core/widgets/loading_view.dart';
 
 class PlayerScreen extends HookWidget {
   final String videoUrl;
@@ -54,9 +55,7 @@ class PlayerScreen extends HookWidget {
             enableSubtitles: false,
             controlBarColor: Colors.black54,
             controlBarHeight: 50,
-            loadingWidget: Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            ),
+            loadingWidget: LoadingView(),
           ),
         ),
         betterPlayerDataSource: dataSource,

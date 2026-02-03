@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uc_task_2/core/constants.dart';
 import 'package:uc_task_2/core/theme/app_colors.dart';
+import 'package:uc_task_2/core/widgets/loading_view.dart';
 import 'package:uc_task_2/features/home/application/movie_details_notifier.dart';
 import 'package:uc_task_2/features/home/domain/movie.dart';
 import 'package:uc_task_2/features/player/presentation/player_screen.dart';
@@ -25,8 +26,7 @@ class MovieDetailsScreen extends HookConsumerWidget {
           SliverToBoxAdapter(
             child: movieAsync.when(
               data: (movie) => _buildDetailsContent(movie, context),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              //TODO: error screen
+              loading: () => LoadingView(),
               error: (err, st) => Center(
                 child: Text(
                   'Failed to load details: $err',
