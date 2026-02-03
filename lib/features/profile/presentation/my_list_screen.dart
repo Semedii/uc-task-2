@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:uc_task_2/core/theme/app_colors.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uc_task_2/features/movie_details/presentation/movie_details_screen.dart';
 
 class MyListScreen extends StatelessWidget {
@@ -18,19 +17,22 @@ class MyListScreen extends StatelessWidget {
         backgroundColor: Colors.black87,
         foregroundColor: Colors.white,
       ),
-      body: ValueListenableBuilder<Box<int>>(
-        valueListenable: Hive.box<int>('favorites').listenable(),
+      body: ValueListenableBuilder<Box<Map<String, dynamic>>>(
+        valueListenable: Hive.box<Map<String, dynamic>>(
+          'favorites',
+        ).listenable(),
         builder: (context, box, _) {
-          final favoriteIds = box.values.toList();
+          final favorites = box.values.toList();
 
-          if (favoriteIds.isEmpty) {
+          if (favorites.isEmpty) {
             return _buildListEmpty();
           }
           return ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: favoriteIds.length,
+            itemCount: favorites.length,
             itemBuilder: (context, index) {
-              final movieId = favoriteIds[index];
+              final data = favorites[index];
+              final movieId = data['id'] as int;
               return Dismissible(
                 key: ValueKey(movieId),
                 direction: DismissDirection.endToStart,
@@ -43,10 +45,10 @@ class MyListScreen extends StatelessWidget {
                 onDismissed: (_) {
                   box.delete(movieId);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Movie removed from My List')),
+                    const SnackBar(content: Text('Movie removed from My List')),
                   );
                 },
-                child: _buildMovieCard(context, movieId, box),
+                child: _buildMovieCard(context, data, box),
               );
             },
           );
@@ -81,15 +83,28 @@ class MyListScreen extends StatelessWidget {
     );
   }
 
-  Card _buildMovieCard(BuildContext context, int movieId, Box<int> box) {
+  Card _buildMovieCard(
+    BuildContext context,
+    Map<String, dynamic> data,
+    Box<Map<String, dynamic>> box,
+  ) {
+    final movieId = data['id'] as int;
+    final title = data['title'] as String? ?? 'Unknown Title';
+    final posterPath = data['posterPath'] as String?;
+    final releaseDate = data['releaseDate'] as String?;
+
+    final year = releaseDate != null && releaseDate.length >= 4
+        ? releaseDate.substring(0, 4)
+        : '';
+
     return Card(
       color: AppColors.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: _buildLeadingIcon(),
-        title: _buildMovieId(movieId),
-        subtitle: _buildSubtitle(),
+        leading: _buildLeadingPoster(posterPath),
+        title: _buildMovieTitle(title),
+        subtitle: _buildSubtitle(year),
         trailing: _buildDeleteIcon(box, movieId),
         onTap: () {
           Navigator.push(
@@ -103,35 +118,47 @@ class MyListScreen extends StatelessWidget {
     );
   }
 
-  ClipRRect _buildLeadingIcon() {
+  ClipRRect _buildLeadingPoster(String? posterPath) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Container(
+      child: SizedBox(
         width: 60,
         height: 90,
-        color: AppColors.background, // placeholder
-        child: const Center(
-          child: Icon(Icons.movie, color: AppColors.primary, size: 30),
-        ),
+        child: posterPath != null && posterPath.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: 'https://image.tmdb.org/t/p/w92$posterPath',
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    Container(color: AppColors.background),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(Icons.movie, color: AppColors.primary, size: 30),
+                ),
+              )
+            : Container(
+                color: AppColors.background,
+                child: const Center(
+                  child: Icon(Icons.movie, color: AppColors.primary, size: 30),
+                ),
+              ),
       ),
     );
   }
 
-  Text _buildMovieId(int movieId) {
+  Text _buildMovieTitle(String title) {
     return Text(
-      'Movie ID: $movieId', // ← replace with real title when fetching
+      title,
       style: const TextStyle(color: Colors.white, fontSize: 16),
     );
   }
 
-  Text _buildSubtitle() {
+  Text _buildSubtitle(String year) {
     return Text(
-      'Added to list',
+      year.isNotEmpty ? 'Released $year' : 'Added to list',
       style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
     );
   }
 
-  IconButton _buildDeleteIcon(Box<int> box, int movieId) {
+  IconButton _buildDeleteIcon(Box<Map<String, dynamic>> box, int movieId) {
     return IconButton(
       icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
       onPressed: () => box.delete(movieId),

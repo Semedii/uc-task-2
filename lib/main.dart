@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await Hive.initFlutter();
-  await Hive.openBox<int>('favorites');
+  await Hive.openBox<Map<String, dynamic>>('favorites');
   runApp(const ProviderScope(child: MyApp()));
 }
 

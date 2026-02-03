@@ -143,7 +143,7 @@ class MovieDetailsScreen extends HookConsumerWidget {
   OutlinedButton _buildToMyListButton(BuildContext context, Movie movie) {
     return OutlinedButton.icon(
       onPressed: () {
-        final box = Hive.box<int>('favorites');
+        final box = Hive.box<Map<String, dynamic>>('favorites');
 
         if (box.containsKey(movie.id)) {
           box.delete(movie.id);
@@ -154,7 +154,12 @@ class MovieDetailsScreen extends HookConsumerWidget {
             ),
           );
         } else {
-          box.put(movie.id, movie.id);
+          box.put(movie.id, {
+            'id': movie.id,
+            'title': movie.title,
+            'posterPath': movie.posterPath,
+            'releaseDate': movie.releaseDate,
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('${movie.title} added to My List'),
@@ -163,36 +168,27 @@ class MovieDetailsScreen extends HookConsumerWidget {
           );
         }
       },
-      icon: ValueListenableBuilder<Box<int>>(
-        valueListenable: Hive.box<int>(
+      icon: ValueListenableBuilder<Box<Map<String, dynamic>>>(
+        valueListenable: Hive.box<Map<String, dynamic>>(
           'favorites',
         ).listenable(keys: [movie.id]),
         builder: (context, box, _) {
           final isInList = box.containsKey(movie.id);
-          return Icon(
-            isInList ? Icons.check : Icons.add,
-            color: isInList ? AppColors.primary : Colors.white,
-          );
+          return Icon(isInList ? Icons.check : Icons.add);
         },
       ),
-      label: ValueListenableBuilder<Box<int>>(
-        valueListenable: Hive.box<int>(
+      label: ValueListenableBuilder<Box<Map<String, dynamic>>>(
+        valueListenable: Hive.box<Map<String, dynamic>>(
           'favorites',
         ).listenable(keys: [movie.id]),
         builder: (context, box, _) {
           final isInList = box.containsKey(movie.id);
-          return Text(
-            isInList ? 'In My List' : 'Add to My List',
-            style: TextStyle(
-              color: isInList ? AppColors.primary : Colors.white,
-            ),
-          );
+          return Text(isInList ? 'In My List' : 'Add to My List');
         },
       ),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         side: BorderSide(color: AppColors.primary),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
