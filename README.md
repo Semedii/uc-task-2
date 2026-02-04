@@ -101,18 +101,13 @@ I added a simple workflow to run tests automatically on every push and created d
 File: `.github/workflows/test.yml`
 
 <img width="1290" height="2796" alt="1" src="https://github.com/user-attachments/assets/20050f36-d1fb-4c0d-83f6-0f2c44b14003" />
-
 <img width="1290" height="2796" alt="2" src="https://github.com/user-attachments/assets/46661c24-6286-4592-850b-f99acd1e768d" />
-
 <img width="1290" height="2796" alt="3" src="https://github.com/user-attachments/assets/e9969b34-e493-4af8-be14-63da333236de" />
-
 <img width="1290" height="2796" alt="4" src="https://github.com/user-attachments/assets/9296a8cc-1737-4b1b-9582-ce0b0b025d0a" />
-
 <img width="1290" height="2796" alt="5" src="https://github.com/user-attachments/assets/0fce7afc-e823-4f14-af59-45c157d5208c" />
 <img width="1290" height="2796" alt="6" src="https://github.com/user-attachments/assets/b1a2c7d6-ea6a-4745-8ffb-179c1c5e3ca5" />
 <img width="1290" height="2796" alt="7" src="https://github.com/user-attachments/assets/266e7cf3-f74a-4266-bcd8-ed2908d54a33" />
 <img width="1290" height="2796" alt="8" src="https://github.com/user-attachments/assets/165271a3-cc29-43b2-837c-de8c36e75581" />
-
 <img width="1290" height="2796" alt="9" src="https://github.com/user-attachments/assets/4f164d6c-7701-41e3-b08b-337b3f995806" />
 
 
