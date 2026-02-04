@@ -6,7 +6,7 @@ part of 'search_movies_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchMoviesHash() => r'cf318ef3b3ddd91f54b7d597cc1c5c13299d8752';
+String _$searchMoviesHash() => r'01e70305573217b4c53359335d90ba1380fd1560';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -39,15 +39,15 @@ class SearchMoviesFamily extends Family<AsyncValue<List<Movie>>> {
   const SearchMoviesFamily();
 
   /// See also [searchMovies].
-  SearchMoviesProvider call(String query, {CancelToken? cancelToken}) {
-    return SearchMoviesProvider(query, cancelToken: cancelToken);
+  SearchMoviesProvider call(String query) {
+    return SearchMoviesProvider(query);
   }
 
   @override
   SearchMoviesProvider getProviderOverride(
     covariant SearchMoviesProvider provider,
   ) {
-    return call(provider.query, cancelToken: provider.cancelToken);
+    return call(provider.query);
   }
 
   static const Iterable<ProviderOrFamily>? _dependencies = null;
@@ -68,13 +68,9 @@ class SearchMoviesFamily extends Family<AsyncValue<List<Movie>>> {
 /// See also [searchMovies].
 class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
   /// See also [searchMovies].
-  SearchMoviesProvider(String query, {CancelToken? cancelToken})
+  SearchMoviesProvider(String query)
     : this._internal(
-        (ref) => searchMovies(
-          ref as SearchMoviesRef,
-          query,
-          cancelToken: cancelToken,
-        ),
+        (ref) => searchMovies(ref as SearchMoviesRef, query),
         from: searchMoviesProvider,
         name: r'searchMoviesProvider',
         debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -84,7 +80,6 @@ class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
         allTransitiveDependencies:
             SearchMoviesFamily._allTransitiveDependencies,
         query: query,
-        cancelToken: cancelToken,
       );
 
   SearchMoviesProvider._internal(
@@ -95,11 +90,9 @@ class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.query,
-    required this.cancelToken,
   }) : super.internal();
 
   final String query;
-  final CancelToken? cancelToken;
 
   @override
   Override overrideWith(
@@ -115,7 +108,6 @@ class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         query: query,
-        cancelToken: cancelToken,
       ),
     );
   }
@@ -127,16 +119,13 @@ class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
 
   @override
   bool operator ==(Object other) {
-    return other is SearchMoviesProvider &&
-        other.query == query &&
-        other.cancelToken == cancelToken;
+    return other is SearchMoviesProvider && other.query == query;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, query.hashCode);
-    hash = _SystemHash.combine(hash, cancelToken.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -147,9 +136,6 @@ class SearchMoviesProvider extends AutoDisposeFutureProvider<List<Movie>> {
 mixin SearchMoviesRef on AutoDisposeFutureProviderRef<List<Movie>> {
   /// The parameter `query` of this provider.
   String get query;
-
-  /// The parameter `cancelToken` of this provider.
-  CancelToken? get cancelToken;
 }
 
 class _SearchMoviesProviderElement
@@ -159,8 +145,6 @@ class _SearchMoviesProviderElement
 
   @override
   String get query => (origin as SearchMoviesProvider).query;
-  @override
-  CancelToken? get cancelToken => (origin as SearchMoviesProvider).cancelToken;
 }
 
 // ignore_for_file: type=lint
