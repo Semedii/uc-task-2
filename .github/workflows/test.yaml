@@ -18,6 +18,10 @@ jobs:
         with:
           channel: stable
 
+      - name: Create dummy .env file
+        run: |
+          echo "API_KEY=dummy" >> .env
+
       - name: Get packages
         run: flutter pub get
 
